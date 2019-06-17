@@ -30,7 +30,7 @@ class AppMenuHandler {
         }];
 
         if (process.platform === 'darwin') {
-            menuTemplate.unshift({});
+            menuTemplate.unshift({ label: "" });
         }
         Menu.setApplicationMenu(Menu.buildFromTemplate(menuTemplate));
     }
