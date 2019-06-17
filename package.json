@@ -1,10 +1,10 @@
 {
   "name": "vudrm-offline",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "offline vudrm encrypted playback demo using electron",
+  "main": "src/main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "electron ."
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/Vualto/vudrm-offline/issues"
   },
-  "homepage": "https://github.com/Vualto/vudrm-offline#readme"
+  "homepage": "https://github.com/Vualto/vudrm-offline#readme",
+  "devDependencies": {
+    "electron": "^5.0.3",
+    "path": "^0.12.7"
+  }
 }
