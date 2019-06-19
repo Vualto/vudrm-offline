@@ -3,16 +3,49 @@
 
 <head>
     <title>Add stream URL</title>
+    <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
-    <form>
-        <div>
-            <label>Enter stream url:</label>
-            <input type="text" id="stream" autofocus>
+    <form id="stream-form" class="needs-validation"></form>
+    <div class="container">
+        <div class="row">
+            <div class="input-group mb-3">
+                <input id="stream" type="text" autofocus class="form-control"
+                    placeholder="https://d1chyo78gdexn4.cloudfront.net/vualto-demo/sintel/sintel_nodrm.ism/manifest.mpd"
+                    aria-label="Stream URL" aria-describedby="basic-addon2" required>
+                <div class="input-group-append">
+                    <button id="add-stream" class="btn btn-success" type="button">Add stream</button>
+                </div>
+            </div>
         </div>
-        <button type="submit">load stream</button>
+    </div>
     </form>
+    <script src="../../vendor/jquery/jquery-min.js"></script>
+    <script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script>
+        let electron = require('electron');
+        const { ipcRenderer } = electron;
+        document.getElementById('add-stream').addEventListener('click', (e) => {
+            e.preventDefault();
+            let input = document.getElementById('stream');
+            let stream = input.value;
+            if (!validateStreamInput(stream)) {
+                e.preventDefault();
+                e.stopPropagation();
+                let form = document.getElementById('stream-form');
+                form.classList.add('was-validated');
+                return;
+            }
+            ipcRenderer.send('stream:load', stream);
+        });
+
+        function validateStreamInput(stream) {
+            if (stream.length < 1) return false;
+            if (!stream.startsWith("http")) return false;
+            return true;
+        }
+    </script>
 </body>
 
 </html>
