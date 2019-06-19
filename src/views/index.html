@@ -3,11 +3,110 @@
 
 <head>
     <title>VUDRM Offline DEMO App</title>
+    <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
-    <h1>look at me</h1>
-    <div id="container"></div>
+    <div class="container">
+        <div class="row">
+            <h1>VUDRM Offline playback demo</h1>
+        </div>
+        <div class="row">
+            <video id="video-container"></video>
+        </div>
+        <div id="streams" class="row">
+        </div>
+    </div>
+    <script src="../../vendor/jquery/jquery-min.js"></script>
+    <script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../vendor/shaka/shaka-player.js"></script>
+    <script>
+        const electron = require('electron');
+        const BrowserWindow = electron.remote.BrowserWindow;
+        const { ipcRenderer } = electron;
+        let shakaPlayer, videoElement;
+
+        ipcRenderer.on('stream:load', (e, stream) => {
+            console.log('stream received');
+            createListItem(stream);
+        });
+
+        function createListItem(stream) {
+            let container = document.createElement('div');
+            container.classList.add('input-group', 'mb-3');
+
+            let input = document.createElement('input');
+            input.classList.add('form-control')
+            input.type = 'text';
+            input.value = stream;
+            input.setAttribute('aria-label', stream);
+            input.setAttribute('aria-describedby', 'stream url');
+            container.appendChild(input);
+
+            let buttonGroup = document.createElement('div');
+            buttonGroup.classList.add('btn-group');
+            buttonGroup.setAttribute('role', 'group');
+            buttonGroup.setAttribute('aria-label', 'Add and remove stream buttons')
+            container.appendChild(buttonGroup);
+
+
+
+            let loadPlayerButton = document.createElement('button')
+            loadPlayerButton.classList.add('btn', 'btn-success');
+            loadPlayerButton.type = 'button';
+            loadPlayerButton.innerHTML = 'Load player';
+            buttonGroup.appendChild(loadPlayerButton);
+            loadPlayerButton.addEventListener('click', loadPlayerHandler.bind(this));
+
+            let deleteStreamButton = document.createElement('button')
+            deleteStreamButton.classList.add('btn', 'btn-danger');
+            deleteStreamButton.type = 'button';
+            deleteStreamButton.innerHTML = 'Remove';
+            buttonGroup.appendChild(deleteStreamButton);
+            deleteStreamButton.addEventListener('click', deleteButtonClickHandler.bind(this));
+
+            document.getElementById('streams').appendChild(container);
+        }
+
+        function getListItemIndex() {
+            return document.getElementById('streamList').childNodes.length;;
+        }
+
+        let deleteButtonClickHandler = (e) => {
+            console.log('delete clicked');
+            let clickedButton = e.target;
+            // loadPlayerButton.removeEventListener('click')
+            let container = clickedButton.parentNode.parentNode;
+            container.parentNode.removeChild(container);
+        }
+
+        let loadPlayerHandler = (e) => {
+            let clickedButton = e.target;
+            let input = clickedButton.parentNode.parentNode.firstChild;
+            let stream = input.value;
+            videoElement = document.getElementById("video-container")
+            shaka.polyfill.installAll();
+            shakaPlayer = new shaka.Player(document.getElementById("video-container"));
+            shakaPlayer.addEventListener("error", onErrorEvent);
+            shakaPlayer.load(stream).then(() => {
+                console.log('shaka has loaded');
+                videoElement.play();
+            }).catch((e) => {
+                console.error(e.detail);
+            });
+        }
+
+        let setWindowEvents = (window, isMain) => {
+            let isMainWindow = false;
+            window.on('closed', () => {
+                window = null;
+            });
+        }
+
+        let onErrorEvent = (err) => {
+            console.error("Error code", err.detail.code, "object", err.detail);
+        }
+    </script>
 </body>
 
 </html>
