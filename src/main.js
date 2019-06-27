@@ -29,6 +29,10 @@ exports.queueDownload = (urls) => {
     });
 }
 
+exports.getContentId = (manifestUrl) => {
+
+}
+
 menuTemplate = [{
     label: 'File',
     submenu: [
