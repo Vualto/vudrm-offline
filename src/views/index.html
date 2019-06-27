@@ -7,78 +7,93 @@
 </head>
 
 <body>
-    <div class="container">
-        <div class="row">
-            <h1>VUDRM Offline playback demo</h1>
-        </div>
-        <div class="row">
-            <video id="video-container"></video>
-        </div>
-        <div id="streams" class="row">
-        </div>
+    <div class="container-fluid">
+        <div id="content-container" class="row flex-row flex-nowrap"></div>
     </div>
     <script src="../../vendor/jquery/jquery-min.js"></script>
     <script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
     <script src="../../vendor/shaka/shaka-player.js"></script>
     <script>
-        const electron = require('electron');
-        const BrowserWindow = electron.remote.BrowserWindow;
-        const { ipcRenderer } = electron;
-        let shakaPlayer, videoElement;
+        const { remote, ipcRenderer } = require('electron');
+        const mainProcess = remote.require('./main.js');
 
-        ipcRenderer.on('stream:load', (e, stream) => {
-            console.log('stream received');
-            createListItem(stream);
-        });
+        let shakaPlayer, videoElement, mediaContent;
 
-        function createListItem(stream) {
-            let container = document.createElement('div');
-            container.classList.add('input-group', 'mb-3');
-
-            let input = document.createElement('input');
-            input.classList.add('form-control')
-            input.type = 'text';
-            input.value = stream;
-            input.setAttribute('aria-label', stream);
-            input.setAttribute('aria-describedby', 'stream url');
-            container.appendChild(input);
-
-            let buttonGroup = document.createElement('div');
-            buttonGroup.classList.add('btn-group');
-            buttonGroup.setAttribute('role', 'group');
-            buttonGroup.setAttribute('aria-label', 'Add and remove stream buttons')
-            container.appendChild(buttonGroup);
-
-
-
-            let loadPlayerButton = document.createElement('button')
-            loadPlayerButton.classList.add('btn', 'btn-success');
-            loadPlayerButton.type = 'button';
-            loadPlayerButton.innerHTML = 'Load player';
-            buttonGroup.appendChild(loadPlayerButton);
-            loadPlayerButton.addEventListener('click', loadPlayerHandler.bind(this));
-
-            let deleteStreamButton = document.createElement('button')
-            deleteStreamButton.classList.add('btn', 'btn-danger');
-            deleteStreamButton.type = 'button';
-            deleteStreamButton.innerHTML = 'Remove';
-            buttonGroup.appendChild(deleteStreamButton);
-            deleteStreamButton.addEventListener('click', deleteButtonClickHandler.bind(this));
-
-            document.getElementById('streams').appendChild(container);
+        let createCard = () => {
+            let columnDiv = document.createElement('div');
+            columnDiv.classList.add('col-4');
+            let card = document.createElement('div');
+            card.classList.add('card');
+            card.style = 'width: 18rem;'
+            return card;
         }
 
-        function getListItemIndex() {
-            return document.getElementById('streamList').childNodes.length;;
+        let createCardPoster = (parent, imagePath) => {
+            let poster = new Image();
+            poster.src = imagePath;
+            poster.width = '250';
+            poster.classList.add('card-img-top');
+            poster.onload = () => {
+                parent.insertBefore(poster, parent.firstChild);
+            };
         }
 
-        let deleteButtonClickHandler = (e) => {
-            console.log('delete clicked');
-            let clickedButton = e.target;
-            // loadPlayerButton.removeEventListener('click')
-            let container = clickedButton.parentNode.parentNode;
-            container.parentNode.removeChild(container);
+        let createHeader = (parent, title) => {
+            let header = document.createElement('h5');
+            header.classList.add('card-title');
+            header.innerText = title;
+            parent.appendChild(header);
         }
+
+        let createCardDescription = (parent, text) => {
+            let description = document.createElement('p');
+            description.classList.add('card-text');
+            description.innerText = text;
+            parent.appendChild(description);
+        }
+
+        createCardButtons = (parent, stream) => {
+            let anchor = document.createElement('a');
+            anchor.href = '#';
+            anchor.classList.add('btn', 'btn-success');
+            anchor.innerText = 'Download';
+            anchor.dataset.stream = stream;
+            anchor.addEventListener('click', (event) => {
+                ipcRenderer.send('download-requested', { event, stream: event.target.dataset.stream });
+                ipcRenderer.on('download-progress', (progress) => {
+                    console.log(progress);
+                })
+            })
+            parent.appendChild(anchor);
+        }
+        let createCardBody = (parent, title, text, stream) => {
+            let cardBody = document.createElement('div');
+            cardBody.classList.add('card-body');
+            createHeader(cardBody, title);
+            createCardDescription(cardBody, text);
+            createCardButtons(cardBody, stream);
+            parent.appendChild(cardBody);
+        }
+
+        let createContentSection = (content) => {
+            let containerDiv = document.getElementById('content-container');
+            content.forEach(c => {
+                let columnDiv = document.createElement('div');
+                columnDiv.classList.add('col-4');
+
+                let card = createCard();
+                createCardPoster(card, c.poster)
+                createCardBody(card, c.title, c.description, c.url);
+                columnDiv.appendChild(card);
+                containerDiv.appendChild(columnDiv);
+            });
+        }
+
+        (() => {
+            createContentSection(mainProcess.getMediaContent());
+        })();
+
+
 
         let loadPlayerHandler = (e) => {
             let clickedButton = e.target;
@@ -93,13 +108,6 @@
                 videoElement.play();
             }).catch((e) => {
                 console.error(e.detail);
-            });
-        }
-
-        let setWindowEvents = (window, isMain) => {
-            let isMainWindow = false;
-            window.on('closed', () => {
-                window = null;
             });
         }
 

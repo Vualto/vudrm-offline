@@ -19,5 +19,10 @@
   "devDependencies": {
     "electron": "^5.0.3",
     "path": "^0.12.7"
+  },
+  "dependencies": {
+    "electron-dl": "^1.14.0",
+    "promise-queue": "^2.2.5",
+    "xmldoc": "^1.1.2"
   }
 }
