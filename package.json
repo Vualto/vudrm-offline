@@ -17,11 +17,12 @@
   },
   "homepage": "https://github.com/Vualto/vudrm-offline#readme",
   "devDependencies": {
-    "electron": "^5.0.3",
+    "electron": "^6.0.0",
     "path": "^0.12.7"
   },
   "dependencies": {
     "electron-dl": "^1.14.0",
+    "express": "^4.17.1",
     "promise-queue": "^2.2.5",
     "xmldoc": "^1.1.2"
   }

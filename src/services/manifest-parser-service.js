@@ -1,80 +1,116 @@
 const xml = require('xmldoc');
+const LanguageService = require('./language-service');
 const mainProcess = require('../main');
-
-exports.parse = async (manifestURL, manifest) => {
-    const doc = new xml.XmlDocument(manifest);
-    const periods = doc.childrenNamed('Period');
-    periods.forEach(adaptationSetParser(manifestURL));
-}
-
-let adaptationSetParser = (manifestURL) => (period) => {
-    const adaptationSets = period.childrenNamed('AdaptationSet');
-    adaptationSets.forEach(representationParser(manifestURL));
-}
-
-let representationParser = (manifestURL) => (set) => {
-    if (set.attr.contentType !== "video" && set.attr.contentType !== "audio") return;
-    const representations = set.childrenNamed('Representation');
-
-    representations.forEach(segmentTemplateParse(manifestURL));
-}
-
-let segmentTemplateParse = (manifestURL) => (rep) => {
-    const segments = rep.childrenNamed('SegmentTemplate');
-    segments.forEach(segmentTimelineParser(rep.attr.id, manifestURL));
-}
-
-let segmentTimelineParser = (repId, manifestURL) => (segment) => {
-    const fragmentTimes = parseSegmentTimeline(segment.childNamed('SegmentTimeline'));
-    const fragmentUrls = fragmentTimes.map(mapFragmentURL(segment.attr.media, repId, manifestURL));
-
-    mainProcess.queueDownload(fragmentUrls);
-}
-
-let mapFragmentURL = (mediaPattern, repId, manifestURL) => (fragment) => {
-    let modifiedMedia = mediaPattern.replace("$RepresentationID$", repId);
-    modifiedMedia = typeof fragment.actualStart === 'undefined' || fragment.actualStart === null
-        ? modifiedMedia.replace('-$Time$', '')
-        : modifiedMedia.replace('$Time$', fragment.actualStart.toString());
-
-    return `${getBaseUrl(manifestURL)}${modifiedMedia}`
-}
-
-let parseSegmentTimeline = (timeline) => {
-    let times = timeline.childrenNamed('S');
-    let mappedTimes = times.map(mapFragment);
-    return mappedTimes.reduce(segmentTimeReducer, []);
-}
-let segmentTimeReducer = (prev, curr, index, currArray) => {
-    if (index === currArray.length - 1) return prev;
-    let actualDuration = prev.length !== 0 ? prev[prev.length - 1].actualStart : 0;
-    if (curr.start === 0) {
-        prev.push({});
-        prev.push({ actualStart: curr.start });
-        actualDuration = actualDuration + curr.duration;
-        prev.push({ actualStart: curr.duration });
-    } else {
-        actualDuration = actualDuration + curr.duration;
-        prev.push({ actualStart: actualDuration });
+const path = require('path');
+class ManifestParser {
+    constructor(manifestURL, dir, manifest) {
+        this._manifestURL = manifestURL;
+        this._directory = dir;
+        this._representationId = '';
+        this._media = '';
+        this._manifestData = new xml.XmlDocument(manifest);
+        this._languages;
     }
-    if (curr.repeat) {
-        for (let i = 0; i < curr.repeat; i++) {
+
+    async parse() {
+        this._languages = await LanguageService.getLanguagesFromFile(path.join(`${__dirname}/../../assets/lang-codes.json`));
+        this.parseDoc();
+    }
+
+    parseDoc() {
+        let periods = this._manifestData.childrenNamed('Period');
+        periods.forEach(period => { this.parsePeriods(period); })
+    }
+
+    parsePeriods(period) {
+        let adaptationSets = period.childrenNamed('AdaptationSet');
+        adaptationSets.forEach(set => { this.parseAdaptationSet(set); });
+    }
+
+
+    parseAdaptationSet(set) {
+        let type = set.attr.contentType;
+        switch (type) {
+            case 'text':
+                console.warn('work to handle text adaptation sets needs to be completed')
+                break;
+            case 'audio':
+                let rep = set.childNamed('Representation');
+                this._representationId = rep.attr.id;
+                let segment = set.childNamed("SegmentTemplate");
+                this.parseSegment(segment);
+                break;
+            default:
+                let representations = set.childrenNamed('Representation');
+                representations.forEach(rep => { this.parseRepresentation(rep, type); });
+                break;
+        }
+    }
+
+    parseRepresentation(rep, type) {
+        let segments = rep.childrenNamed('SegmentTemplate');
+        this._representationId = rep.attr.id
+        segments.forEach((seg) => { this.parseSegment(seg); });
+    }
+
+    parseSegment(segment) {
+        let fragmentTimes = this.parseSegmentTimeline(segment.childNamed('SegmentTimeline'));
+        this._media = segment.attr.media;
+        let fragmentUrls = fragmentTimes.map(this.mapFragmentURL.bind(this));
+        mainProcess.queueDownload(fragmentUrls, `${this._directory}/dash`);
+    }
+
+    parseSegmentTimeline(timeline) {
+        let times = timeline.childrenNamed('S');
+        let mappedTimes = times.map(this.mapFragment);
+        return mappedTimes.reduce(this.segmentTimeReducer, []);
+    }
+
+    mapFragmentURL(fragment) {
+        let modifiedMedia = this._media.replace("$RepresentationID$", this._representationId);
+        modifiedMedia = typeof fragment.actualStart === 'undefined' || fragment.actualStart === null
+            ? modifiedMedia.replace('-$Time$', '')
+            : modifiedMedia.replace('$Time$', fragment.actualStart.toString());
+
+        return `${this.getBaseUrl(this._manifestURL)}${modifiedMedia}`
+    }
+
+    mapFragment(obj) {
+        return {
+            start: typeof obj.attr.t !== 'undefined' ? Number(obj.attr.t) : undefined,
+            duration: Number(obj.attr.d),
+            repeat: typeof obj.attr.r !== 'undefined' ? Number(obj.attr.r) : undefined
+        };
+    }
+
+    getBaseUrl() {
+        return this._manifestURL.substr(0, this._manifestURL.lastIndexOf('/')).replace('.ism', '.ism/dash/');
+    }
+
+    segmentTimeReducer(prev, curr, index, currArray) {
+        if (index === currArray.length - 1) return prev;
+        let actualDuration = prev.length !== 0 ? prev[prev.length - 1].actualStart : 0;
+
+        if (curr.start === 0) {
+            // handle first fragment
+            prev.push({});
+            prev.push({ actualStart: curr.start });
+            actualDuration = actualDuration + curr.duration;
+            prev.push({ actualStart: curr.duration });
+        } else {
+            // normal fragment
             actualDuration = actualDuration + curr.duration;
             prev.push({ actualStart: actualDuration });
         }
-    }
-    return prev;
-};
-let mapFragment = (obj) => {
-    return {
-        start: typeof obj.attr.t !== 'undefined' ? Number(obj.attr.t) : undefined,
-        duration: Number(obj.attr.d),
-        repeat: typeof obj.attr.r !== 'undefined' ? Number(obj.attr.r) : undefined
-    };
-}
 
-let getBaseUrl = (manifestURL) => {
-    let slashIndex = manifestURL.lastIndexOf('/');
-    let s = manifestURL.substr(0, slashIndex);
-    return s.replace('.ism', '.ism/dash/');
+        // handle fragment repeats 
+        if (curr.repeat) {
+            for (let i = 0; i < curr.repeat; i++) {
+                actualDuration = actualDuration + curr.duration;
+                prev.push({ actualStart: actualDuration });
+            }
+        }
+        return prev;
+    }
 }
+module.exports = ManifestParser;

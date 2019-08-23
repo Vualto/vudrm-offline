@@ -52,26 +52,51 @@
             parent.appendChild(description);
         }
 
-        createCardButtons = (parent, stream) => {
+        let createCardButtons = (parent, stream, directory, downloaded, localUrl) => {
+            if (downloaded) {
+                createPlayButton(parent, localUrl, directory);
+            } else {
+                createDownloadButton(parent, stream, directory);
+            }
+        }
+
+        let createDownloadButton = (parent, stream, directory) => {
             let anchor = document.createElement('a');
             anchor.href = '#';
             anchor.classList.add('btn', 'btn-success');
             anchor.innerText = 'Download';
             anchor.dataset.stream = stream;
+            anchor.dataset.directory = directory
             anchor.addEventListener('click', (event) => {
-                ipcRenderer.send('download-requested', { event, stream: event.target.dataset.stream });
+                let data = event.target.dataset;
+                ipcRenderer.send('download-requested', { event, stream: data.stream, directory: data.directory });
                 ipcRenderer.on('download-progress', (progress) => {
                     console.log(progress);
                 })
             })
             parent.appendChild(anchor);
         }
-        let createCardBody = (parent, title, text, stream) => {
+
+        let createPlayButton = (parent, stream, directory) => {
+            let anchor = document.createElement('a');
+            anchor.href = '#';
+            anchor.classList.add('btn', 'btn-info');
+            anchor.innerText = 'Play';
+            anchor.dataset.stream = stream;
+            anchor.dataset.directory = directory
+            anchor.addEventListener('click', (event) => {
+                let data = event.target.dataset;
+                ipcRenderer.send('play-requested', { event, stream: data.stream });
+            })
+            parent.appendChild(anchor);
+        }
+
+        let createCardBody = (parent, title, text, stream, directory, downloaded, localUrl) => {
             let cardBody = document.createElement('div');
             cardBody.classList.add('card-body');
             createHeader(cardBody, title);
             createCardDescription(cardBody, text);
-            createCardButtons(cardBody, stream);
+            createCardButtons(cardBody, stream, directory, downloaded, localUrl);
             parent.appendChild(cardBody);
         }
 
@@ -83,7 +108,7 @@
 
                 let card = createCard();
                 createCardPoster(card, c.poster)
-                createCardBody(card, c.title, c.description, c.url);
+                createCardBody(card, c.title, c.description, c.url, c.directory, c.downloaded, c.localUrl);
                 columnDiv.appendChild(card);
                 containerDiv.appendChild(columnDiv);
             });

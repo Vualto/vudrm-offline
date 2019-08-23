@@ -1,36 +1,51 @@
 const { app, ipcMain, BrowserWindow } = require('electron');
 const { download } = require('electron-dl');
+const express = require('express');
 const Queue = require('promise-queue');
-const https = require('https');
 const path = require('path');
 const fs = require('fs');
 const MenuService = require('./services/menu-service');
 const ContentService = require('./services/content-service');
 const ManifestParser = require('./services/manifest-parser-service');
 
-let mainWindow, menuTemplate, mediaContent = [];
+let mainWindow, menuTemplate, mediaContent = [], currentStream;
 let downloadQueue = new Queue(2, Infinity);
 let queueSize = 0;
-let downloadedItemsnumber = 0;
+let downloadedItemsTotal = 0;
+
+app.commandLine.appendSwitch('widevine-cdm-path', '../vendor/google/widevine');
 
 exports.getMediaContent = () => {
     return mediaContent;
 }
 
-exports.queueDownload = (urls) => {
+exports.getCurrentStream = () => {
+    return currentStream;
+}
+exports.queueDownload = (urls, dir) => {
     queueSize += urls.length;
+    let directory = `./content/${dir}`;
     urls.forEach(url => {
+        if (this.fileExistOnSystem(url, directory)) return;
         downloadQueue.add(() => {
-            return download(mainWindow, url);
+            return download(mainWindow, url, { directory: directory });
         }).then((arg) => {
-            downloadedItemsnumber++;
-            console.log(`${downloadedItemsnumber}/${queueSize}`);
+            downloadedItemsTotal++;
+            let percentComplete = Math.floor(downloadedItemsTotal * (100 / queueSize));
+            // TODO add download update event 
+            printDownloadPercentage(percentComplete);
+            if (queueSize === downloadedItemsTotal) {
+                process.stdout.write("downloads complete");
+            }
         }).catch(err => console.error(url, err));
     });
 }
 
-exports.getContentId = (manifestUrl) => {
-
+exports.fileExistOnSystem = (url, dir) => {
+    let lastSlashIndex = url.lastIndexOf('/');
+    let filename = url.substring(lastSlashIndex, url.length);
+    let path = `${dir}/${filename}`;
+    return fs.existsSync(`${dir}${filename}`);
 }
 
 menuTemplate = [{
@@ -102,6 +117,7 @@ if (process.env.NODE_ENV !== 'production') {
 };
 
 app.on('ready', async () => {
+    createServer()
     if (typeof mainWindow === 'undefined' || mainWindow === null) {
         mainWindow = new BrowserWindow({
             title: "VUDRM Offline",
@@ -125,17 +141,26 @@ app.on('ready', async () => {
 
 
         ipcMain.on('download-requested', (e, args) => {
-            download(mainWindow, args.stream).then((item) => {
+            let dir = args.directory;
+            download(mainWindow, args.stream, {
+                directory: `./content/${dir}`
+            }).then((item) => {
                 let path = item.getSavePath();
                 fs.readFile(path, (err, data) => {
-                    ManifestParser.parse(args.stream, data);
+                    let manifestParser = new ManifestParser(args.stream, dir, data);
+                    manifestParser.parse();
                 });
 
             }).catch(err => console.error(err));
         });
 
+        ipcMain.on('play-requested', (e, args) => {
+            currentStream = args.stream;
+            mainWindow.loadFile(__dirname + '/views/player.html');
+        })
+
         MenuService.setupMenu(menuTemplate);
-        await ContentService.loadContent(path.join(`${__dirname}../../assets/content.json`), (content) => { mediaContent = content; });
+        await ContentService.getContentsFromFile(path.join(`${__dirname}../../assets/content.json`), (content) => { parseContent(content); });
         mainWindow.loadFile(__dirname + '/views/index.html');
 
     }
@@ -146,3 +171,42 @@ app.on('window-all-closed', () => {
         app.quit();
     }
 });
+
+function printDownloadPercentage(percentage) {
+    process.stdout.clearLine();
+    process.stdout.cursorTo(0);
+    process.stdout.write("download percentage: " + percentage + "% complete.");
+}
+
+function parseContent(content) {
+    content.forEach(c => {
+        // TODO get a better way of checking file name
+        let filePath = `./content/${c.directory}/manifest.mpd`;
+        c.downloaded = isFileDownloaded(filePath);
+    });
+    mediaContent = content;
+}
+
+function isFileDownloaded(filePath) {
+    return fs.existsSync(filePath);
+}
+
+function createServer(app) {
+    const server = express();
+    server.use(express.static(path.join(__dirname, "../content"), {
+        dotfiles: 'ignore',
+        etag: false,
+        extensions: ['mpd', 'dash'],
+        index: false,
+        maxAge: '1d',
+        redirect: false,
+        setHeaders: function (res, path, stat) {
+            res.set('x-timestamp', Date.now())
+        }
+    }));
+
+    server.get("/", (req, res) => {
+        res.sendFile(path.resolve(__dirname, "../content/", req.query.name));
+    });
+    server.listen(9292, () => console.log('server running'));
+}

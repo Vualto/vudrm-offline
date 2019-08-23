@@ -1,0 +1,740 @@
+[
+    {
+        "twoLetterCode": "aa",
+        "threeLetterCode": "aar"
+    },
+    {
+        "twoLetterCode": "ab",
+        "threeLetterCode": "abk"
+    },
+    {
+        "twoLetterCode": "ae",
+        "threeLetterCode": "ave"
+    },
+    {
+        "twoLetterCode": "af",
+        "threeLetterCode": "afr"
+    },
+    {
+        "twoLetterCode": "ak",
+        "threeLetterCode": "aka"
+    },
+    {
+        "twoLetterCode": "am",
+        "threeLetterCode": "amh"
+    },
+    {
+        "twoLetterCode": "an",
+        "threeLetterCode": "arg"
+    },
+    {
+        "twoLetterCode": "ar",
+        "threeLetterCode": "ara"
+    },
+    {
+        "twoLetterCode": "as",
+        "threeLetterCode": "asm"
+    },
+    {
+        "twoLetterCode": "av",
+        "threeLetterCode": "ava"
+    },
+    {
+        "twoLetterCode": "ay",
+        "threeLetterCode": "aym"
+    },
+    {
+        "twoLetterCode": "az",
+        "threeLetterCode": "aze"
+    },
+    {
+        "twoLetterCode": "ba",
+        "threeLetterCode": "bak"
+    },
+    {
+        "twoLetterCode": "be",
+        "threeLetterCode": "bel"
+    },
+    {
+        "twoLetterCode": "bg",
+        "threeLetterCode": "bul"
+    },
+    {
+        "twoLetterCode": "bh",
+        "threeLetterCode": "bih"
+    },
+    {
+        "twoLetterCode": "bi",
+        "threeLetterCode": "bis"
+    },
+    {
+        "twoLetterCode": "bm",
+        "threeLetterCode": "bam"
+    },
+    {
+        "twoLetterCode": "bn",
+        "threeLetterCode": "ben"
+    },
+    {
+        "twoLetterCode": "bo",
+        "threeLetterCode": "bod"
+    },
+    {
+        "twoLetterCode": "br",
+        "threeLetterCode": "bre"
+    },
+    {
+        "twoLetterCode": "bs",
+        "threeLetterCode": "bos"
+    },
+    {
+        "twoLetterCode": "ca",
+        "threeLetterCode": "cat"
+    },
+    {
+        "twoLetterCode": "ce",
+        "threeLetterCode": "che"
+    },
+    {
+        "twoLetterCode": "ch",
+        "threeLetterCode": "cha"
+    },
+    {
+        "twoLetterCode": "co",
+        "threeLetterCode": "cos"
+    },
+    {
+        "twoLetterCode": "cr",
+        "threeLetterCode": "cre"
+    },
+    {
+        "twoLetterCode": "cs",
+        "threeLetterCode": "ces",
+        "threeLetterCode/B": "cze"
+    },
+    {
+        "twoLetterCode": "cu",
+        "threeLetterCode": "chu"
+    },
+    {
+        "twoLetterCode": "cv",
+        "threeLetterCode": "chv"
+    },
+    {
+        "twoLetterCode": "cy",
+        "threeLetterCode": "cym"
+    },
+    {
+        "twoLetterCode": "da",
+        "threeLetterCode": "dan"
+    },
+    {
+        "twoLetterCode": "de",
+        "threeLetterCode": "deu",
+        "threeLetterCode/B": "ger"
+    },
+    {
+        "twoLetterCode": "dv",
+        "threeLetterCode": "div"
+    },
+    {
+        "twoLetterCode": "dz",
+        "threeLetterCode": "dzo"
+    },
+    {
+        "twoLetterCode": "ee",
+        "threeLetterCode": "ewe"
+    },
+    {
+        "twoLetterCode": "el",
+        "threeLetterCode": "ell"
+    },
+    {
+        "twoLetterCode": "en",
+        "threeLetterCode": "eng"
+    },
+    {
+        "twoLetterCode": "eo",
+        "threeLetterCode": "epo"
+    },
+    {
+        "twoLetterCode": "es",
+        "threeLetterCode": "spa"
+    },
+    {
+        "twoLetterCode": "et",
+        "threeLetterCode": "est"
+    },
+    {
+        "twoLetterCode": "eu",
+        "threeLetterCode": "eus"
+    },
+    {
+        "twoLetterCode": "fa",
+        "threeLetterCode": "fas"
+    },
+    {
+        "twoLetterCode": "ff",
+        "threeLetterCode": "ful"
+    },
+    {
+        "twoLetterCode": "fi",
+        "threeLetterCode": "fin"
+    },
+    {
+        "twoLetterCode": "fj",
+        "threeLetterCode": "fij"
+    },
+    {
+        "twoLetterCode": "fo",
+        "threeLetterCode": "fao"
+    },
+    {
+        "twoLetterCode": "fr",
+        "threeLetterCode": "fra"
+    },
+    {
+        "twoLetterCode": "fy",
+        "threeLetterCode": "fry"
+    },
+    {
+        "twoLetterCode": "ga",
+        "threeLetterCode": "gle"
+    },
+    {
+        "twoLetterCode": "gd",
+        "threeLetterCode": "gla"
+    },
+    {
+        "twoLetterCode": "gl",
+        "threeLetterCode": "glg"
+    },
+    {
+        "twoLetterCode": "gn",
+        "threeLetterCode": "grn"
+    },
+    {
+        "twoLetterCode": "gu",
+        "threeLetterCode": "guj"
+    },
+    {
+        "twoLetterCode": "gv",
+        "threeLetterCode": "glv"
+    },
+    {
+        "twoLetterCode": "ha",
+        "threeLetterCode": "hau"
+    },
+    {
+        "twoLetterCode": "he",
+        "threeLetterCode": "heb"
+    },
+    {
+        "twoLetterCode": "hi",
+        "threeLetterCode": "hin"
+    },
+    {
+        "twoLetterCode": "ho",
+        "threeLetterCode": "hmo"
+    },
+    {
+        "twoLetterCode": "hr",
+        "threeLetterCode": "hrv"
+    },
+    {
+        "twoLetterCode": "ht",
+        "threeLetterCode": "hat"
+    },
+    {
+        "twoLetterCode": "hu",
+        "threeLetterCode": "hun"
+    },
+    {
+        "twoLetterCode": "hy",
+        "threeLetterCode": "hye"
+    },
+    {
+        "twoLetterCode": "hz",
+        "threeLetterCode": "her"
+    },
+    {
+        "twoLetterCode": "ia",
+        "threeLetterCode": "ina"
+    },
+    {
+        "twoLetterCode": "id",
+        "threeLetterCode": "ind"
+    },
+    {
+        "twoLetterCode": "ie",
+        "threeLetterCode": "ile"
+    },
+    {
+        "twoLetterCode": "ig",
+        "threeLetterCode": "ibo"
+    },
+    {
+        "twoLetterCode": "ii",
+        "threeLetterCode": "iii"
+    },
+    {
+        "twoLetterCode": "ik",
+        "threeLetterCode": "ipk"
+    },
+    {
+        "twoLetterCode": "io",
+        "threeLetterCode": "ido"
+    },
+    {
+        "twoLetterCode": "is",
+        "threeLetterCode": "isl"
+    },
+    {
+        "twoLetterCode": "it",
+        "threeLetterCode": "ita"
+    },
+    {
+        "twoLetterCode": "iu",
+        "threeLetterCode": "iku"
+    },
+    {
+        "twoLetterCode": "ja",
+        "threeLetterCode": "jpn"
+    },
+    {
+        "twoLetterCode": "jv",
+        "threeLetterCode": "jav"
+    },
+    {
+        "twoLetterCode": "ka",
+        "threeLetterCode": "kat"
+    },
+    {
+        "twoLetterCode": "kg",
+        "threeLetterCode": "kon"
+    },
+    {
+        "twoLetterCode": "ki",
+        "threeLetterCode": "kik"
+    },
+    {
+        "twoLetterCode": "kj",
+        "threeLetterCode": "kua"
+    },
+    {
+        "twoLetterCode": "kk",
+        "threeLetterCode": "kaz"
+    },
+    {
+        "twoLetterCode": "kl",
+        "threeLetterCode": "kal"
+    },
+    {
+        "twoLetterCode": "km",
+        "threeLetterCode": "khm"
+    },
+    {
+        "twoLetterCode": "kn",
+        "threeLetterCode": "kan"
+    },
+    {
+        "twoLetterCode": "ko",
+        "threeLetterCode": "kor"
+    },
+    {
+        "twoLetterCode": "kr",
+        "threeLetterCode": "kau"
+    },
+    {
+        "twoLetterCode": "ks",
+        "threeLetterCode": "kas"
+    },
+    {
+        "twoLetterCode": "ku",
+        "threeLetterCode": "kur"
+    },
+    {
+        "twoLetterCode": "kv",
+        "threeLetterCode": "kom"
+    },
+    {
+        "twoLetterCode": "kw",
+        "threeLetterCode": "cor"
+    },
+    {
+        "twoLetterCode": "ky",
+        "threeLetterCode": "kir"
+    },
+    {
+        "twoLetterCode": "la",
+        "threeLetterCode": "lat"
+    },
+    {
+        "twoLetterCode": "lb",
+        "threeLetterCode": "ltz"
+    },
+    {
+        "twoLetterCode": "lg",
+        "threeLetterCode": "lug"
+    },
+    {
+        "twoLetterCode": "li",
+        "threeLetterCode": "lim"
+    },
+    {
+        "twoLetterCode": "ln",
+        "threeLetterCode": "lin"
+    },
+    {
+        "twoLetterCode": "lo",
+        "threeLetterCode": "lao"
+    },
+    {
+        "twoLetterCode": "lt",
+        "threeLetterCode": "lit"
+    },
+    {
+        "twoLetterCode": "lu",
+        "threeLetterCode": "lub"
+    },
+    {
+        "twoLetterCode": "lv",
+        "threeLetterCode": "lav"
+    },
+    {
+        "twoLetterCode": "mg",
+        "threeLetterCode": "mlg"
+    },
+    {
+        "twoLetterCode": "mh",
+        "threeLetterCode": "mah"
+    },
+    {
+        "twoLetterCode": "mi",
+        "threeLetterCode": "mri"
+    },
+    {
+        "twoLetterCode": "mk",
+        "threeLetterCode": "mkd"
+    },
+    {
+        "twoLetterCode": "ml",
+        "threeLetterCode": "mal"
+    },
+    {
+        "twoLetterCode": "mn",
+        "threeLetterCode": "mon"
+    },
+    {
+        "twoLetterCode": "mr",
+        "threeLetterCode": "mar"
+    },
+    {
+        "twoLetterCode": "ms",
+        "threeLetterCode": "msa"
+    },
+    {
+        "twoLetterCode": "mt",
+        "threeLetterCode": "mlt"
+    },
+    {
+        "twoLetterCode": "my",
+        "threeLetterCode": "mya"
+    },
+    {
+        "twoLetterCode": "na",
+        "threeLetterCode": "nau"
+    },
+    {
+        "twoLetterCode": "nb",
+        "threeLetterCode": "nob"
+    },
+    {
+        "twoLetterCode": "nd",
+        "threeLetterCode": "nde"
+    },
+    {
+        "twoLetterCode": "ne",
+        "threeLetterCode": "nep"
+    },
+    {
+        "twoLetterCode": "ng",
+        "threeLetterCode": "ndo"
+    },
+    {
+        "twoLetterCode": "nl",
+        "threeLetterCode": "nld"
+    },
+    {
+        "twoLetterCode": "nn",
+        "threeLetterCode": "nno"
+    },
+    {
+        "twoLetterCode": "no",
+        "threeLetterCode": "nor"
+    },
+    {
+        "twoLetterCode": "nr",
+        "threeLetterCode": "nbl"
+    },
+    {
+        "twoLetterCode": "nv",
+        "threeLetterCode": "nav"
+    },
+    {
+        "twoLetterCode": "ny",
+        "threeLetterCode": "nya"
+    },
+    {
+        "twoLetterCode": "oc",
+        "threeLetterCode": "oci"
+    },
+    {
+        "twoLetterCode": "oj",
+        "threeLetterCode": "oji"
+    },
+    {
+        "twoLetterCode": "om",
+        "threeLetterCode": "orm"
+    },
+    {
+        "twoLetterCode": "or",
+        "threeLetterCode": "ori"
+    },
+    {
+        "twoLetterCode": "os",
+        "threeLetterCode": "oss"
+    },
+    {
+        "twoLetterCode": "pa",
+        "threeLetterCode": "pan"
+    },
+    {
+        "twoLetterCode": "pi",
+        "threeLetterCode": "pli"
+    },
+    {
+        "twoLetterCode": "pl",
+        "threeLetterCode": "pol"
+    },
+    {
+        "twoLetterCode": "ps",
+        "threeLetterCode": "pus"
+    },
+    {
+        "twoLetterCode": "pt",
+        "threeLetterCode": "por"
+    },
+    {
+        "twoLetterCode": "qu",
+        "threeLetterCode": "que"
+    },
+    {
+        "twoLetterCode": "rm",
+        "threeLetterCode": "roh"
+    },
+    {
+        "twoLetterCode": "rn",
+        "threeLetterCode": "run"
+    },
+    {
+        "twoLetterCode": "ro",
+        "threeLetterCode": "ron"
+    },
+    {
+        "twoLetterCode": "ru",
+        "threeLetterCode": "rus"
+    },
+    {
+        "twoLetterCode": "rw",
+        "threeLetterCode": "kin"
+    },
+    {
+        "twoLetterCode": "sa",
+        "threeLetterCode": "san"
+    },
+    {
+        "twoLetterCode": "sc",
+        "threeLetterCode": "srd"
+    },
+    {
+        "twoLetterCode": "sd",
+        "threeLetterCode": "snd"
+    },
+    {
+        "twoLetterCode": "se",
+        "threeLetterCode": "sme"
+    },
+    {
+        "twoLetterCode": "sg",
+        "threeLetterCode": "sag"
+    },
+    {
+        "twoLetterCode": "si",
+        "threeLetterCode": "sin"
+    },
+    {
+        "twoLetterCode": "sk",
+        "threeLetterCode": "slk"
+    },
+    {
+        "twoLetterCode": "sl",
+        "threeLetterCode": "slv"
+    },
+    {
+        "twoLetterCode": "sm",
+        "threeLetterCode": "smo"
+    },
+    {
+        "twoLetterCode": "sn",
+        "threeLetterCode": "sna"
+    },
+    {
+        "twoLetterCode": "so",
+        "threeLetterCode": "som"
+    },
+    {
+        "twoLetterCode": "sq",
+        "threeLetterCode": "sqi"
+    },
+    {
+        "twoLetterCode": "sr",
+        "threeLetterCode": "srp"
+    },
+    {
+        "twoLetterCode": "ss",
+        "threeLetterCode": "ssw"
+    },
+    {
+        "twoLetterCode": "st",
+        "threeLetterCode": "sot"
+    },
+    {
+        "twoLetterCode": "su",
+        "threeLetterCode": "sun"
+    },
+    {
+        "twoLetterCode": "sv",
+        "threeLetterCode": "swe"
+    },
+    {
+        "twoLetterCode": "sw",
+        "threeLetterCode": "swa"
+    },
+    {
+        "twoLetterCode": "ta",
+        "threeLetterCode": "tam"
+    },
+    {
+        "twoLetterCode": "te",
+        "threeLetterCode": "tel"
+    },
+    {
+        "twoLetterCode": "tg",
+        "threeLetterCode": "tgk"
+    },
+    {
+        "twoLetterCode": "th",
+        "threeLetterCode": "tha"
+    },
+    {
+        "twoLetterCode": "ti",
+        "threeLetterCode": "tir"
+    },
+    {
+        "twoLetterCode": "tk",
+        "threeLetterCode": "tuk"
+    },
+    {
+        "twoLetterCode": "tl",
+        "threeLetterCode": "tgl"
+    },
+    {
+        "twoLetterCode": "tn",
+        "threeLetterCode": "tsn"
+    },
+    {
+        "twoLetterCode": "to",
+        "threeLetterCode": "ton"
+    },
+    {
+        "twoLetterCode": "tr",
+        "threeLetterCode": "tur"
+    },
+    {
+        "twoLetterCode": "ts",
+        "threeLetterCode": "tso"
+    },
+    {
+        "twoLetterCode": "tt",
+        "threeLetterCode": "tat"
+    },
+    {
+        "twoLetterCode": "tw",
+        "threeLetterCode": "twi"
+    },
+    {
+        "twoLetterCode": "ty",
+        "threeLetterCode": "tah"
+    },
+    {
+        "twoLetterCode": "ug",
+        "threeLetterCode": "uig"
+    },
+    {
+        "twoLetterCode": "uk",
+        "threeLetterCode": "ukr"
+    },
+    {
+        "twoLetterCode": "ur",
+        "threeLetterCode": "urd"
+    },
+    {
+        "twoLetterCode": "uz",
+        "threeLetterCode": "uzb"
+    },
+    {
+        "twoLetterCode": "ve",
+        "threeLetterCode": "ven"
+    },
+    {
+        "twoLetterCode": "vi",
+        "threeLetterCode": "vie"
+    },
+    {
+        "twoLetterCode": "vo",
+        "threeLetterCode": "vol"
+    },
+    {
+        "twoLetterCode": "wa",
+        "threeLetterCode": "wln"
+    },
+    {
+        "twoLetterCode": "wo",
+        "threeLetterCode": "wol"
+    },
+    {
+        "twoLetterCode": "xh",
+        "threeLetterCode": "xho"
+    },
+    {
+        "twoLetterCode": "yi",
+        "threeLetterCode": "yid"
+    },
+    {
+        "twoLetterCode": "yo",
+        "threeLetterCode": "yor"
+    },
+    {
+        "twoLetterCode": "za",
+        "threeLetterCode": "zha"
+    },
+    {
+        "twoLetterCode": "zh",
+        "threeLetterCode": "zho"
+    },
+    {
+        "twoLetterCode": "zu",
+        "threeLetterCode": "zul"
+    }
+]
