@@ -1,5 +1,4 @@
 const xml = require('xmldoc');
-const LanguageService = require('./language-service');
 const mainProcess = require('../main');
 const path = require('path');
 class ManifestParser {
@@ -13,7 +12,6 @@ class ManifestParser {
     }
 
     async parse() {
-        this._languages = await LanguageService.getLanguagesFromFile(path.join(`${__dirname}/../../assets/lang-codes.json`));
         this.parseDoc();
     }
 
