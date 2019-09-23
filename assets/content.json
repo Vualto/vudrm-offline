@@ -1,33 +1,20 @@
 [
     {
+        "id": 0,
         "title": "Elephants Dream",
         "url": "https://d1chyo78gdexn4.cloudfront.net/vualto-demo/elephants-dream/elephants-dream_nodrm.ism/manifest.mpd",
-        "localUrl": "http://localhost:9292/elephants-dream/elephants-dream_nodrm.ism/manifest.mpd",
+        "localUrl": "http://localhost:9292/elephants-dream/manifest.mpd",
         "poster": "../../assets/elephants-dream.png",
         "description": "The film was created by the Orange Open Movie Project studio in Amsterdam during 2005/2006, bringing together a diverse team of artists and developers.",
         "directory": "elephants-dream"
     },
     {
-        "title": "Sintel",
-        "url": "https://d1chyo78gdexn4.cloudfront.net/vualto-demo/sintel/sintel_nodrm.ism/manifest.mpd",
-        "localUrl": "http://localhost:9292/sintel/sintel_nodrm.ism/manifest.mpd",
-        "poster": "../../assets/sintel.jpg",
-        "description": "Sintel is an independently produced short film, initiated by the Blender Foundation as a means to further improve and validate the free/open source 3D creation suite Blender.",
-        "directory": "sintel"
-    },
-    {
+        "id": 2,
         "title": "Tomorrow land",
         "url": "https://d1chyo78gdexn4.cloudfront.net/vualto-demo/tomorrowland2015/tomorrowland2015_nodrm.ism/manifest.mpd",
         "localUrl": "http://localhost:9292/tomorrow-land/manifest.mpd",
         "poster": "../../assets/tomorrow-land.jpg",
         "description": "Enter the Secret Kingdom of Melodia and be overwhelmed with true magic… Over 180,000 People of Tomorrow witnessed epic performances and massive fireworks.",
         "directory": "tomorrow-land"
-    },
-    {
-        "title": "Tears of Steel",
-        "url": "https://d1chyo78gdexn4.cloudfront.net/vualto-demo/tomorrowland2015/tomorrowland2015_nodrm.ism/manifest.mpd",
-        "poster": "../../assets/tears-of-steel.jpg",
-        "description": "Tears of Steel is a short film made in Amsterdam the Netherlands by the Blender Institute, well known for realizing the open source short animation movies “Big Buck Bunny” (2008) and Sintel (2010).",
-        "directory": "tears-of-steel"
     }
 ]
