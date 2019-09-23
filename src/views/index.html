@@ -3,6 +3,7 @@
 
 <head>
     <title>VUDRM Offline DEMO App</title>
+    <script src="../../vendor/jquery/jquery-min.js"></script>
     <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
@@ -10,7 +11,6 @@
     <div class="container-fluid">
         <div id="content-container" class="row flex-row flex-nowrap"></div>
     </div>
-    <script src="../../vendor/jquery/jquery-min.js"></script>
     <script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
     <script src="../../vendor/shaka/shaka-player.js"></script>
     <script>
@@ -28,9 +28,9 @@
             return card;
         }
 
-        let createCardPoster = (parent, imagePath) => {
+        let createCardPoster = (parent, content) => {
             let poster = new Image();
-            poster.src = imagePath;
+            poster.src = content.poster;
             poster.width = '250';
             poster.classList.add('card-img-top');
             poster.onload = () => {
@@ -52,26 +52,28 @@
             parent.appendChild(description);
         }
 
-        let createCardButtons = (parent, stream, directory, downloaded, localUrl) => {
-            if (downloaded) {
-                createPlayButton(parent, localUrl, directory);
+        let createCardButtons = (parent, content) => {
+            if (content.downloaded) {
+                createPlayButton(parent, content.localUrl, content.directory);
             } else {
-                createDownloadButton(parent, stream, directory);
+                createDownloadButton(parent, content);
             }
         }
 
-        let createDownloadButton = (parent, stream, directory) => {
+        // stream, directory
+        let createDownloadButton = (parent, content) => {
             let anchor = document.createElement('a');
             anchor.href = '#';
             anchor.classList.add('btn', 'btn-success');
             anchor.innerText = 'Download';
-            anchor.dataset.stream = stream;
-            anchor.dataset.directory = directory
+            anchor.dataset.contentId = content.id;
+            anchor.dataset.stream = content.url;
+            anchor.dataset.directory = content.directory
             anchor.addEventListener('click', (event) => {
                 let data = event.target.dataset;
-                ipcRenderer.send('download-requested', { event, stream: data.stream, directory: data.directory });
-                ipcRenderer.on('download-progress', (progress) => {
-                    console.log(progress);
+                ipcRenderer.send('download-requested', { event, id: data.contentId, stream: data.stream, directory: data.directory });
+                ipcRenderer.on('download-progress', (event, progress) => {
+                    console.log({ event, progress });
                 })
             })
             parent.appendChild(anchor);
@@ -91,12 +93,13 @@
             parent.appendChild(anchor);
         }
 
-        let createCardBody = (parent, title, text, stream, directory, downloaded, localUrl) => {
+        // c.title, c.description, c.url, c.directory, c.downloaded, c.localUrl
+        let createCardBody = (parent, content) => {
             let cardBody = document.createElement('div');
             cardBody.classList.add('card-body');
-            createHeader(cardBody, title);
-            createCardDescription(cardBody, text);
-            createCardButtons(cardBody, stream, directory, downloaded, localUrl);
+            createHeader(cardBody, content.title);
+            createCardDescription(cardBody, content.description);
+            createCardButtons(cardBody, content);
             parent.appendChild(cardBody);
         }
 
@@ -107,8 +110,8 @@
                 columnDiv.classList.add('col-4');
 
                 let card = createCard();
-                createCardPoster(card, c.poster)
-                createCardBody(card, c.title, c.description, c.url, c.directory, c.downloaded, c.localUrl);
+                createCardPoster(card, c);
+                createCardBody(card, c);
                 columnDiv.appendChild(card);
                 containerDiv.appendChild(columnDiv);
             });
@@ -129,7 +132,6 @@
             shakaPlayer = new shaka.Player(document.getElementById("video-container"));
             shakaPlayer.addEventListener("error", onErrorEvent);
             shakaPlayer.load(stream).then(() => {
-                console.log('shaka has loaded');
                 videoElement.play();
             }).catch((e) => {
                 console.error(e.detail);

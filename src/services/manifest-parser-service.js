@@ -30,13 +30,20 @@ class ManifestParser {
         let type = set.attr.contentType;
         switch (type) {
             case 'text':
-                console.warn('work to handle text adaptation sets needs to be completed')
-                break;
             case 'audio':
-                let rep = set.childNamed('Representation');
-                this._representationId = rep.attr.id;
-                let segment = set.childNamed("SegmentTemplate");
-                this.parseSegment(segment);
+            case 'video':
+                // needs to handle multiple, representations
+                // let rep = set.childNamed('Representation');
+
+                let reps = set.childrenNamed('Representation');
+                reps.forEach(rep => {
+                    this._representationId = rep.attr.id;
+                    let segment = rep.childNamed("SegmentTemplate");
+                    if (!segment) {
+                        segment = set.childNamed("SegmentTemplate");
+                    }
+                    this.parseSegment(segment);
+                });
                 break;
             default:
                 let representations = set.childrenNamed('Representation');

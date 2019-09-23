@@ -22,6 +22,7 @@ exports.getMediaContent = () => {
 exports.getCurrentStream = () => {
     return currentStream;
 }
+
 exports.queueDownload = (urls, dir) => {
     queueSize += urls.length;
     let directory = `./content/${dir}`;
@@ -33,7 +34,7 @@ exports.queueDownload = (urls, dir) => {
             downloadedItemsTotal++;
             let percentComplete = Math.floor(downloadedItemsTotal * (100 / queueSize));
             // TODO add download update event 
-            printDownloadPercentage(percentComplete);
+            mainWindow.webContents.send('download-progress', { percentComplete });
             if (queueSize === downloadedItemsTotal) {
                 process.stdout.write("downloads complete");
             }
@@ -44,7 +45,6 @@ exports.queueDownload = (urls, dir) => {
 exports.fileExistOnSystem = (url, dir) => {
     let lastSlashIndex = url.lastIndexOf('/');
     let filename = url.substring(lastSlashIndex, url.length);
-    let path = `${dir}/${filename}`;
     return fs.existsSync(`${dir}${filename}`);
 }
 
@@ -162,7 +162,6 @@ app.on('ready', async () => {
         MenuService.setupMenu(menuTemplate);
         await ContentService.getContentsFromFile(path.join(`${__dirname}../../assets/content.json`), (content) => { parseContent(content); });
         mainWindow.loadFile(__dirname + '/views/index.html');
-
     }
 });
 
@@ -171,12 +170,6 @@ app.on('window-all-closed', () => {
         app.quit();
     }
 });
-
-function printDownloadPercentage(percentage) {
-    process.stdout.clearLine();
-    process.stdout.cursorTo(0);
-    process.stdout.write("download percentage: " + percentage + "% complete.");
-}
 
 function parseContent(content) {
     content.forEach(c => {
@@ -208,5 +201,5 @@ function createServer(app) {
     server.get("/", (req, res) => {
         res.sendFile(path.resolve(__dirname, "../content/", req.query.name));
     });
-    server.listen(9292, () => console.log('server running'));
+    server.listen(9292);
 }

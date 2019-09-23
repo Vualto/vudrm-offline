@@ -16,16 +16,8 @@
     var stream;
     (() => {
         stream = mainProcess.getCurrentStream();
-        console.log(stream);
         var player = new shaka.Player(document.getElementById('video'));
-        player.load(stream).then(
-            function (player) {
-                console.log('Successfully created Shaka Player instance');
-            },
-            function (reason) {
-                console.log(reason);
-            }
-        );
+        player.load(stream);
     })();
 </script>
 
